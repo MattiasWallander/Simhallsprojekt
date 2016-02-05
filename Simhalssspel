@@ -1,0 +1,133 @@
+<html>
+
+<head>
+    <canvas width="800" height="600" id="myCanvas" style="border:3px solid purple"></canvas>
+
+
+    <script>
+        var ctx, c, img;
+        
+
+
+        var player = {
+                x: 200,
+                y: 500,
+                width: 40,
+                height: 80,
+                speed: 6.5,
+                velX: 0,
+                velY: 0,
+                jumping: false
+            },
+
+
+            gravity = 0.6;
+
+
+
+
+        window.onload = function () {
+            //målar ut streckgubben
+            playerLeft = document.getElementById("gubbevanster");
+            playerRight = document.getElementById("gubbehoger");
+            img = playerRight
+            img.height = player.height;
+            img.width = player.width;
+            c = document.getElementById("myCanvas");
+            ctx = c.getContext("2d");
+            //  img = document.getElementById("stickManRight");
+
+
+        };
+
+        window.setInterval(update, 20);
+
+        function update() {
+            //gameloop
+            ctx.clearRect(0, 0, 800, 600);
+            ctx.drawImage(background,0, 0, 1600, 600);
+            ctx.drawImage(img, player.x, player.y, player.width, player.height);
+            player.y = player.y + gravity;
+            player.x = player.x + player.velX;
+            player.velY += gravity;
+            
+
+
+            player.y = player.y + player.velY
+
+
+            if (player.y >= 500) {
+                player.y = 500
+                player.jumping = false
+            }
+
+
+        }
+
+
+
+
+
+        // Röra på gubben  
+        function keyDown(ev) {
+            //vänster. A
+            if (ev.keyCode == 65) {
+                player.velX = -5
+                img = playerLeft
+            }
+            //höger
+            if (ev.keyCode == 68) {
+                player.velX = 5
+                img = playerRight;
+
+
+            }
+            // hopp. W
+            if (ev.keyCode == 87) {
+
+                if (!player.jumping) {
+                    player.jumping = true;
+                    player.velY = -player.speed * 2;
+                }
+            }
+
+
+
+        }
+      
+
+
+        //sätter hastighet = 0
+        function keyUp(ev) {
+
+            if (ev.keyCode == 65) {
+
+                player.velX = 0
+            }
+
+            if (ev.keyCode == 87) {
+
+                jumping = false
+
+            }
+
+
+
+            if (ev.keyCode == 68)
+
+                player.velX = 0
+
+
+        }
+    </script>
+
+
+</head>
+
+<body onkeydown="keyDown(event)" onkeyup="keyUp(event)">
+    <img src="gubbehoger.png" height="player.height()" width="player.width()" id="gubbehoger" style="display: none">
+    <img src="gubbevanster.png" id="gubbevanster" style="display: none">
+    <img src="background.png" id = "background" style = "display: none">
+</body>
+
+</html>
